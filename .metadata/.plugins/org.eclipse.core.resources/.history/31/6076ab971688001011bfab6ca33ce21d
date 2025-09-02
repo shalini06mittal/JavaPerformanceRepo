@@ -1,0 +1,11 @@
+package main;
+//java -verbose:class main.Hello
+public class HelloCDS {
+
+	public static void main(String[] args) {
+		
+		System.out.println("Hello Class Data Sharing demo");
+
+	}
+
+}

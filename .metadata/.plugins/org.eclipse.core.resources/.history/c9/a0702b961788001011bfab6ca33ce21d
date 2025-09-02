@@ -1,0 +1,13 @@
+package main;
+// java -verbose:class main.Hello
+// java -Xshare:off -XX:+UnlockDiagnosticVMOptions -XX:DumpLoadedClassList=classes.lst main.HelloCDS
+
+public class HelloCDS {
+
+	public static void main(String[] args) {
+		
+		System.out.println("Hello Class Data Sharing demo");
+
+	}
+
+}

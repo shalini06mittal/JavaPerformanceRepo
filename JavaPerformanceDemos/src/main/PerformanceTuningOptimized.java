@@ -1,0 +1,169 @@
+package main;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+public class PerformanceTuningOptimized {
+
+ // Fixed version addressing the performance issues
+    
+    private static final Map<String, Object> globalCache = new ConcurrentHashMap<>();
+    private static final int MAX_CACHE_SIZE = 10000;
+    private static final ExecutorService threadPool = 
+        new ThreadPoolExecutor(5, 20, 60L, TimeUnit.SECONDS, 
+                              new LinkedBlockingQueue<>(1000));
+    
+    // Object pooling for DataObject reuse
+    private static final Queue<DataObject> objectPool = new ConcurrentLinkedQueue<>();
+    private static final Map<String, String> sharedPropertiesMap = new ConcurrentHashMap<>();
+    
+    static {
+        // Pre-populate object pool
+        for (int i = 0; i < 1000; i++) {
+            objectPool.offer(new DataObject("", sharedPropertiesMap));
+        }
+    }
+    
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("Optimized Performance Demo");
+        simulateWebTraffic();
+    }
+    
+    private static void simulateWebTraffic() throws InterruptedException {
+        int requestCount = 1000;
+        CountDownLatch latch = new CountDownLatch(requestCount);
+        
+        long startTime = System.currentTimeMillis();
+        
+        for (int i = 0; i < requestCount; i++) {
+            final int requestId = i;
+            threadPool.submit(() -> {
+                try {
+                    processRequestOptimized(requestId);
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+        
+        latch.await();
+        long endTime = System.currentTimeMillis();
+        
+        System.out.println("Total time: " + (endTime - startTime) + " ms");
+        System.out.println("Average per request: " + (endTime - startTime) / (double) requestCount + " ms");
+        
+        threadPool.shutdown();
+        threadPool.awaitTermination(30, TimeUnit.SECONDS);
+    }
+    
+    private static void processRequestOptimized(int requestId) {
+        // FIX 1: Use StringBuilder for efficient string operations
+        String response = buildResponseOptimized(requestId);
+        
+        // FIX 2: Reuse objects from pool
+        List<DataObject> data = fetchDataOptimized(requestId);
+        
+        // FIX 3: Use efficient algorithms and in-place processing
+        processDataInPlace(data);
+        
+        // FIX 4: Implement cache eviction
+        cacheResultWithEviction(requestId, response + data.size());
+        
+        // Return objects to pool for reuse
+        returnObjectsToPool(data);
+    }
+    
+    private static String buildResponseOptimized(int requestId) {
+        // FIX: Use StringBuilder with pre-allocated capacity
+        StringBuilder response = new StringBuilder(2000);
+        for (int i = 0; i < 100; i++) {
+            response.append("RequestId:").append(requestId)
+                   .append(",Data:").append(i).append(";");
+        }
+        return response.toString();
+    }
+    
+    private static List<DataObject> fetchDataOptimized(int requestId) {
+        // FIX: Reuse objects from pool instead of creating new ones
+        List<DataObject> data = new ArrayList<>(1000);
+        
+        for (int i = 0; i < 1000; i++) {
+            DataObject obj = objectPool.poll();
+            if (obj == null) {
+                // Pool exhausted, create new object
+                obj = new DataObject("", sharedPropertiesMap);
+            }
+            
+            obj.setName("Data" + requestId + "_" + i);
+            data.add(obj);
+        }
+        return data;
+    }
+    
+    private static void processDataInPlace(List<DataObject> data) {
+        // FIX: Use efficient sorting with simple comparator
+        data.sort(Comparator.comparing(DataObject::getName));
+        
+        // FIX: Modify objects in place using parallel processing
+        data.parallelStream().forEach(obj -> {
+            obj.setName(obj.getName().toUpperCase());
+        });
+    }
+    
+    private static void returnObjectsToPool(List<DataObject> data) {
+        // Return objects to pool for reuse
+        for (DataObject obj : data) {
+            obj.reset(); // Clear object state
+            objectPool.offer(obj);
+        }
+    }
+    
+    private static void cacheResultWithEviction(int requestId, String result) {
+        // FIX: Implement cache size limit with efficient eviction
+        if (globalCache.size() >= MAX_CACHE_SIZE) {
+            // Remove 20% of entries using batch operation
+            Iterator<Map.Entry<String, Object>> iterator = globalCache.entrySet().iterator();
+            int toRemove = MAX_CACHE_SIZE / 5;
+            int removed = 0;
+            
+            while (iterator.hasNext() && removed < toRemove) {
+                iterator.next();
+                iterator.remove();
+                removed++;
+            }
+        }
+        globalCache.put("request_" + requestId, result);
+    }
+    
+    static class DataObject {
+        private String name;
+        private Map<String, String> properties;
+        
+        public DataObject(String name, Map<String, String> properties) {
+            this.name = name;
+            this.properties = properties;
+        }
+        
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        public Map<String, String> getProperties() { return properties; }
+        
+        public void reset() {
+            this.name = "";
+            // Don't clear shared properties map
+        }
+    }
+} 
+
+

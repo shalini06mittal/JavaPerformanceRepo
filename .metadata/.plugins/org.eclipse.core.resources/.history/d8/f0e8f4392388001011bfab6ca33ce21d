@@ -1,0 +1,36 @@
+package main;
+
+// -XX:+PrintCompilation 
+// OSR - On-Stack Replacement
+/**
+ * java -XX:+PrintCompilation main.JITForceDemo
+ * 
+ * Output:
+ * timestamp compilation_id attributes
+ * 
+ * Attributes : 5 character
+ * % - OSR
+ * s - synchronizeed method
+ * ! - method has exception handler
+ * b - compilation occured in blocking mode
+ * n - compilation occurred for a wrapper to a native method
+ */
+
+public class JITForceDemo {
+    public static void main(String[] args) {
+        long result = 0;
+        for (int i = 0; i < 5_000; i++) {   // outer loop
+            result += heavyWork();
+        }
+        System.out.println("Result = " + result);
+    }
+
+    static long heavyWork() {
+        long sum = 0;
+        for (int i = 0; i < 10_000_000; i++) {
+            sum += i % 10;
+        }
+        return sum;
+    }
+}
+

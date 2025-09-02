@@ -176,22 +176,3 @@ public class PerformanceTuningChallenge {
     }
 }
 
-/**
- * Performance Impact Summary
-Metric					Before					After				Improvement
-Execution Time			~15-20 secs				~3-5 secs			3-4x faster
-Memory Usage			High (string churn)		60-70% less			Major reduction
-Object Creation			~1M+ objects			~10K objects		100x fewer objects
-GC Pressure				Very high				Low					Significant reduction
-Thread Utilization		Poor					Good				Better CPU usage
-
-Key Learning Points for Students:
-
-String operations: Always use StringBuilder for concatenation in loops
-Object lifecycle: Consider object pooling for frequently created/destroyed objects
-Algorithm complexity: Simple comparisons vs. complex ones matter at scale
-Memory management: In-place modifications vs. creating new objects
-Cache design: Always implement bounds and eviction policies
-Thread pool tuning: Configure based on expected load patterns
- */
-

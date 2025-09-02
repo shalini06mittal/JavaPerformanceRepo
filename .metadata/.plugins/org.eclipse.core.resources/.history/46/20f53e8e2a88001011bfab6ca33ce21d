@@ -20,16 +20,6 @@ public class PerformanceTuningOptimized {
     
     private static final Map<String, Object> globalCache = new ConcurrentHashMap<>();
     private static final int MAX_CACHE_SIZE = 10000;
-    
-    /**
-     * Improvements:
-
-		Dynamic sizing: 5-20 threads based on load
-		Bounded queue: Prevents memory exhaustion
-		Configurable timeouts: Threads can be reclaimed
-		Better resource management
-		
-     */
     private static final ExecutorService threadPool = 
         new ThreadPoolExecutor(5, 20, 60L, TimeUnit.SECONDS, 
                               new LinkedBlockingQueue<>(1000));

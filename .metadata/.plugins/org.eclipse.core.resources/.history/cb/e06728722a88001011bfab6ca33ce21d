@@ -20,16 +20,6 @@ public class PerformanceTuningOptimized {
     
     private static final Map<String, Object> globalCache = new ConcurrentHashMap<>();
     private static final int MAX_CACHE_SIZE = 10000;
-    
-    /**
-     * Improvements:
-
-		Dynamic sizing: 5-20 threads based on load
-		Bounded queue: Prevents memory exhaustion
-		Configurable timeouts: Threads can be reclaimed
-		Better resource management
-		
-     */
     private static final ExecutorService threadPool = 
         new ThreadPoolExecutor(5, 20, 60L, TimeUnit.SECONDS, 
                               new LinkedBlockingQueue<>(1000));
@@ -161,7 +151,6 @@ public class PerformanceTuningOptimized {
         });
     }
     
-    
     private static void returnObjectsToPool(List<DataObject> data) {
         // Return objects to pool for reuse
         for (DataObject obj : data) {
@@ -170,16 +159,6 @@ public class PerformanceTuningOptimized {
         }
     }
     
-    /**
-     * Improvements:
-
-		Bounded cache size prevents memory leaks
-		Batch eviction is more efficient than removing one by one
-		Configurable limits via MAX_CACHE_SIZE constant
-		
-     * @param requestId
-     * @param result
-     */
     private static void cacheResultWithEviction(int requestId, String result) {
         // FIX: Implement cache size limit with efficient eviction
         if (globalCache.size() >= MAX_CACHE_SIZE) {

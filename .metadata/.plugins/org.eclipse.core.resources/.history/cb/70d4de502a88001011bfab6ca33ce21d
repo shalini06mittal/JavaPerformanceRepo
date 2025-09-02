@@ -20,16 +20,6 @@ public class PerformanceTuningOptimized {
     
     private static final Map<String, Object> globalCache = new ConcurrentHashMap<>();
     private static final int MAX_CACHE_SIZE = 10000;
-    
-    /**
-     * Improvements:
-
-		Dynamic sizing: 5-20 threads based on load
-		Bounded queue: Prevents memory exhaustion
-		Configurable timeouts: Threads can be reclaimed
-		Better resource management
-		
-     */
     private static final ExecutorService threadPool = 
         new ThreadPoolExecutor(5, 20, 60L, TimeUnit.SECONDS, 
                               new LinkedBlockingQueue<>(1000));
@@ -94,16 +84,6 @@ public class PerformanceTuningOptimized {
         returnObjectsToPool(data);
     }
     
-    /**
-     * Improvements:
-
-		Single StringBuilder object with pre-allocated capacity
-		Time Complexity: O(n) - linear time
-		Memory efficiency: No intermediate String objects
-		Performance gain: ~10-50x faster for large concatenations
-     * @param requestId
-     * @return
-     */
     private static String buildResponseOptimized(int requestId) {
         // FIX: Use StringBuilder with pre-allocated capacity
         StringBuilder response = new StringBuilder(2000);
@@ -113,17 +93,6 @@ public class PerformanceTuningOptimized {
         }
         return response.toString();
     }
-    
-    /**
-     * Improvements:
-
-		Object reuse instead of constant allocation
-		Shared properties map reduces memory per object
-		Pre-sized ArrayList avoids internal array resizing
-		Reduced GC pressure significantly
-     * @param requestId
-     * @return
-     */
     
     private static List<DataObject> fetchDataOptimized(int requestId) {
         // FIX: Reuse objects from pool instead of creating new ones
@@ -142,15 +111,6 @@ public class PerformanceTuningOptimized {
         return data;
     }
     
-    /**
-    Improvements:
-
-    	Simple string comparison: O(string length) per comparison
-    	In-place modification: No new objects created
-    	Parallel processing: Utilizes multiple CPU cores
-    	Memory efficiency: Modifies existing objects
-    	**/
-    
     private static void processDataInPlace(List<DataObject> data) {
         // FIX: Use efficient sorting with simple comparator
         data.sort(Comparator.comparing(DataObject::getName));
@@ -161,7 +121,6 @@ public class PerformanceTuningOptimized {
         });
     }
     
-    
     private static void returnObjectsToPool(List<DataObject> data) {
         // Return objects to pool for reuse
         for (DataObject obj : data) {
@@ -170,16 +129,6 @@ public class PerformanceTuningOptimized {
         }
     }
     
-    /**
-     * Improvements:
-
-		Bounded cache size prevents memory leaks
-		Batch eviction is more efficient than removing one by one
-		Configurable limits via MAX_CACHE_SIZE constant
-		
-     * @param requestId
-     * @param result
-     */
     private static void cacheResultWithEviction(int requestId, String result) {
         // FIX: Implement cache size limit with efficient eviction
         if (globalCache.size() >= MAX_CACHE_SIZE) {

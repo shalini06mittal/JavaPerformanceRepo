@@ -28,7 +28,6 @@ public class PerformanceTuningOptimized {
 		Bounded queue: Prevents memory exhaustion
 		Configurable timeouts: Threads can be reclaimed
 		Better resource management
-		
      */
     private static final ExecutorService threadPool = 
         new ThreadPoolExecutor(5, 20, 60L, TimeUnit.SECONDS, 

@@ -31,7 +31,7 @@ public class PrimeNumbers {
 		//	Thread.sleep(10000);
 			primes.add(next);
 		}
-		//System.out.println(primes);
+		System.out.println(primes);
 	}
 
 }

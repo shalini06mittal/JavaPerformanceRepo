@@ -7,17 +7,30 @@ public class MainDuplicate {
 		records.addCustomer(new Customer("John"));
 		records.addCustomer(new Customer("Simon"));
 
-		for (Customer next : records.getCustomers().values())
-		{
-			System.out.println(next);
-		}
-
-		records.getCustomers().clear();
-
-		for (Customer next : records.getCustomers().values())
-		{
-			System.out.println(next);
-		}
+		Customer c1 = new Customer("a");
+		Customer c2 = new Customer(c1);
+		Customer c3 = c1;
+		System.out.println(c1);
+		System.out.println(c2);
+		System.out.println(c3);
+		
+		c1.setName("B");
+		System.out.println();
+		System.out.println(c1);
+		System.out.println(c2);
+		System.out.println(c3);
+		
+//		for (Customer next : records.getCustomers().values())
+//		{
+//			System.out.println(next);
+//		}
+//
+//		records.getCustomers().clear();
+//
+//		for (Customer next : records.getCustomers().values())
+//		{
+//			System.out.println(next);
+//		}
 	}
 
 }

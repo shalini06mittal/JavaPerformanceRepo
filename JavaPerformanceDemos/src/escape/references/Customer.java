@@ -15,8 +15,6 @@ public class Customer {
 	public Customer(Customer c) {
 		this.name = c.getName();
 	}
-
-
 	public String toString() {
 		return name;
 	}

@@ -23,9 +23,9 @@ public class Customer  {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@Override
-	protected void finalize() throws Throwable {
-		System.out.println("The object GCed "+ name);
-	}
+//	@Override
+//	protected void finalize() throws Throwable {
+//		System.out.println("The object GCed "+ name);
+//	}
 	
 }

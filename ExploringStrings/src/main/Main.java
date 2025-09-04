@@ -31,26 +31,27 @@ In certain situations, like using strings as keys in a HashMap or for synchroniz
 public class Main {
 
 	public static void main(String[] args) {
+		
 //		String one = "hello";
 //		String two = "hello";
 //		
-//		System.out.println(one.equals(two));
-//		System.out.println(one == two);
-//		
+//		System.out.println(one.equals(two));// t
+//		System.out.println(one == two);//t/ f
+		
 //		Integer i = 76;
 //		String three = i.toString();
 //		String four = "76";
 //		
-//		System.out.println(three.equals(four));
-//		System.out.println(three == four);
-//		
+//		System.out.println(three.equals(four));//t
+//		System.out.println(three == four);//f
+		
 //		Integer i = 76;
 //		String three = i.toString().intern();
 //		String four = "76";
 //		
 //		System.out.println(three.equals(four));
 //		System.out.println(three == four);
-		
+//		
 		Date start = new Date();
 		
 		List<String> strings = new ArrayList<String>();
@@ -61,7 +62,8 @@ public class Main {
 		
 		Date end = new Date();
 		System.out.println("Elapsed time was " + (end.getTime() - start.getTime()) + " ms.");
-		try { Thread.sleep( Duration.ofSeconds( 5 ).toMillis() ); } catch ( InterruptedException e ) { e.printStackTrace(); }
+		try { Thread.sleep( Duration.ofSeconds( 5 ).toMillis() ); } 
+		catch ( InterruptedException e ) { e.printStackTrace(); }
 		
 	}
 

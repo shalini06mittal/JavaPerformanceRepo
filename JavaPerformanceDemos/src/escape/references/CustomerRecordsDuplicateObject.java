@@ -16,9 +16,10 @@ public class CustomerRecordsDuplicateObject {
 	public Map<String, Customer> getCustomers() {
 		return Map.copyOf(this.records);
 	}
+	
 	public Customer find(String name) {
-		//return records.get(name);
-		return new Customer(records.get(name));
+		return records.get(name);
+		//return new Customer(records.get(name));
 	}
 	
 }

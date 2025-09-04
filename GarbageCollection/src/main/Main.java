@@ -56,7 +56,7 @@ public class Main {
 //			customers.add(new Customer("John"));	
 //		}
 		
-		for (int i=0; i<100; i++)
+		for (int i=0; i<1000000; i++)
 		{
 			customers.add(new Customer("Customer "+i));	
 		}
@@ -69,7 +69,7 @@ public class Main {
 		availableBytes = runtime.freeMemory();
 		System.out.println("Available memory  when customers no longer referenced: " + availableBytes / 1024 + "k");
 		
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 
 		availableBytes = runtime.freeMemory();
 		System.out.println("Available memory  1 second later: " + availableBytes / 1024 + "k");

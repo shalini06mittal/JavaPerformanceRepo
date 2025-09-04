@@ -1,6 +1,7 @@
 package jconsole;
 import java.util.Date;
 
+// Elapsed time 93735 ms
 public class Main {
 //92007 ms(with -client)
 //93542 ms(w/o -client)

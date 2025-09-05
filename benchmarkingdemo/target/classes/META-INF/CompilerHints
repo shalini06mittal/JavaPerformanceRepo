@@ -1,0 +1,12 @@
+dontinline,*.*_all_jmhStub
+dontinline,*.*_avgt_jmhStub
+dontinline,*.*_sample_jmhStub
+dontinline,*.*_ss_jmhStub
+dontinline,*.*_thrpt_jmhStub
+inline,org/sample/MultiModeBenchmark.testAverageTime
+inline,org/sample/MultiModeBenchmark.testSampleTime
+inline,org/sample/MultiModeBenchmark.testSingleShot
+inline,org/sample/MultiModeBenchmark.testThroughput
+inline,org/sample/PrimeBenchmarking.version1
+inline,org/sample/PrimeBenchmarking.version2
+inline,org/sample/SamplePercentileBenchmark.testSampleTime
